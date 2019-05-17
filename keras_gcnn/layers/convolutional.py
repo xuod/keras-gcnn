@@ -1,8 +1,8 @@
-import keras.backend as K
+import tensorflow.keras.backend as K
 from groupy.gconv.tensorflow_gconv.splitgconv2d import gconv2d_util
-from keras.engine import InputSpec
-from keras.layers.convolutional import Conv2D, Conv2DTranspose
-from keras.utils import get_custom_objects
+from tensorflow.keras.layers import InputSpec
+from tensorflow.keras.layers import Conv2D, Conv2DTranspose
+from tensorflow.keras.utils import get_custom_objects
 from keras_gcnn.transform_filter import transform_filter_2d_nhwc
 
 
@@ -86,7 +86,7 @@ class GConv2D(Conv2D):
                                                                           out_channels=self.filters,
                                                                           ksize=self.kernel_size[0])
 
-        self.kernel = self.add_weight(shape=w_shape,
+        self.kernel = self.add_weight(shape=tuple(map(int,w_shape)),
                                       initializer=self.kernel_initializer,
                                       name='kernel',
                                       regularizer=self.kernel_regularizer,
