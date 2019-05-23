@@ -66,11 +66,11 @@ class GroupPool(Layer):
 
     def call(self, x):
         shape = x.shape
-        print(shape)
+        # print(shape)
         stack_shape = (K.shape(x)[0],) + tuple(map(int, [shape[1], shape[2], shape[3] // self.nti, self.nti]))
-        print(stack_shape)
+        # print(stack_shape)
         input_reshaped = K.reshape(x, stack_shape)
-        print(input_reshaped)
+        # print(input_reshaped)
         if self.mode == 'mean':
             mean_per_group = K.mean(input_reshaped, -1)
             return mean_per_group
