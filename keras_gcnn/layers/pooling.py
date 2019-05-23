@@ -9,6 +9,10 @@ class GroupPool(Layer):
         super(GroupPool, self).__init__(**kwargs)
         self.h_input = h_input
         self.mode = mode
+        if self.mode == 'e1':
+            self.w = [+1,-1,+1,-1,+1,-1,+1,-1]
+        if self.mode == 'e2':
+            self.w = [+1,-1,+1,-1,-1,+1,-1,+1]
 
     def build(self, input_shape):
         self.shape = input_shape
@@ -72,6 +76,9 @@ class GroupPool(Layer):
             return mean_per_group
         elif self.mode == 'max':
             mean_per_group = K.max(input_reshaped, -1)
+            return mean_per_group
+        elif self.mode == 'e1' or self.mode == 'e2':
+            mean_per_group = K.mean(input_reshaped*self.w, -1)
             return mean_per_group
         else:
             raise NotImplemented
